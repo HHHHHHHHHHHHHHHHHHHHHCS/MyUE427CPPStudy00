@@ -17,9 +17,9 @@ class MYUE427CPPSTUDY00_API UMyObject : public UObject
 public:
 	UMyObject();
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadWrite, Category="My Prop")
 	float myFloat;
 
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable, Category="My Func")
 	void MyFunction();
 };
