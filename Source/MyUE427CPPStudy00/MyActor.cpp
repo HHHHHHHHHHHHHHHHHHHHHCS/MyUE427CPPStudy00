@@ -10,6 +10,10 @@ AMyActor::AMyActor()
 	PrimaryActorTick.bCanEverTick = true;
 
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MyStaticMesh"));
+	InitLocation = FVector(0.0f);
+	PlacedLocation = FVector(0.0f);
+	WorldOrigin = FVector(0.0f);
+	TickLocationOffset = FVector(0.0f);
 }
 
 
@@ -18,7 +22,12 @@ AMyActor::AMyActor()
 void AMyActor::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	PlacedLocation = GetActorLocation();
+	if(bGotoInitLocation)
+	{
+		SetActorLocation(InitLocation);
+	}
 }
 
 // Called every frame
@@ -26,5 +35,9 @@ void AMyActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if(bShouldMove)
+	{
+		AddActorLocalOffset(TickLocationOffset);
+	}
 }
 
