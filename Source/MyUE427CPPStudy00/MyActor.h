@@ -37,6 +37,14 @@ public:
 	UPROPERTY(EditAnywhere, Category="My Actor Properties | Bool")
 	bool bShouldMove;
 
+	UPROPERTY(EditAnywhere, Category="My Actor Properties | Physics")
+	FVector InitForce;
+	
+	UPROPERTY(EditAnywhere, Category="My Actor Properties | Physics")
+	FVector InitTorque;
+	
+	UPROPERTY(EditAnywhere, Category="My Actor Properties | Physics")
+	bool bAccelChange;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
