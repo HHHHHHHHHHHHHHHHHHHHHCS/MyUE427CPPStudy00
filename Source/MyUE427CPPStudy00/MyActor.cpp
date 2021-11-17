@@ -34,8 +34,8 @@ void AMyActor::BeginPlay()
 		SetActorLocation(InitLocation);
 	}
 
-	StaticMesh->AddForce(InitForce, "NAME_None", bAccelChange);
-	StaticMesh->AddTorque(InitTorque);
+	//StaticMesh->AddForce(InitForce, "NAME_None", bAccelChange);
+	//StaticMesh->AddTorque(InitTorque);
 }
 
 // Called every frame
@@ -45,6 +45,6 @@ void AMyActor::Tick(float DeltaTime)
 
 	if (bShouldMove)
 	{
-		AddActorLocalOffset(TickLocationOffset);
+		AddActorLocalOffset(TickLocationOffset, true);
 	}
 }
