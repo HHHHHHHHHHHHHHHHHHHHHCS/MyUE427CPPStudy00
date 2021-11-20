@@ -45,6 +45,9 @@ void AMyActor::Tick(float DeltaTime)
 
 	if (bShouldMove)
 	{
-		AddActorLocalOffset(TickLocationOffset, true);
+		FHitResult hitResult;
+		AddActorLocalOffset(TickLocationOffset, true, &hitResult);
+		// UE_LOG(LogTemp, Warning, TEXT("X: %F, Y:%F, Z: %F")
+		// , hitResult.Location.X, hitResult.Location.Y, hitResult.Location.Z);
 	}
 }
