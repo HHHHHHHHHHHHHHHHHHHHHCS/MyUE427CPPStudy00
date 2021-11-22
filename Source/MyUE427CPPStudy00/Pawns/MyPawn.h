@@ -18,6 +18,10 @@ public:
 	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
 	UStaticMeshComponent* StaticMesh;
 
+	//class 后 可以在cpp  include 就好了
+	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
+	class UCameraComponent* MyCameraComponent;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
