@@ -3,6 +3,7 @@
 
 #include "MyPawn.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
 
 // Sets default values
@@ -40,4 +41,15 @@ void AMyPawn::Tick(float DeltaTime)
 void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AMyPawn::MoveForward);
+	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPawn::MoveRight);
+}
+
+void AMyPawn::MoveForward(float value)
+{
+}
+
+void AMyPawn::MoveRight(float value)
+{
 }
