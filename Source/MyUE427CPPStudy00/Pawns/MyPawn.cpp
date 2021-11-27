@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/InputComponent.h"
 #include "Camera/CameraComponent.h"
+#include "GameFramework/SpringArmComponent.h"
 
 // Sets default values
 AMyPawn::AMyPawn()
@@ -13,16 +14,25 @@ AMyPawn::AMyPawn()
 	PrimaryActorTick.bCanEverTick = true;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	StaticMesh->SetupAttachment(GetRootComponent());
+	MyStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
+	MyStaticMesh->SetupAttachment(GetRootComponent());
+
+	MySpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	MySpringArm->SetupAttachment(MyStaticMesh);
+	MySpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+	MySpringArm->TargetArmLength = 400.0f;
+	MySpringArm->bEnableCameraLag = true;
+	MySpringArm->CameraLagSpeed = 3.0f;
 
 	MyCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	MyCameraComponent->SetupAttachment(GetRootComponent());
-
-	MyCameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 300.0f));
-	MyCameraComponent->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
+	MyCameraComponent->SetupAttachment(MySpringArm);//GetRootComponent());
+	// MyCameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 300.0f));
+	// MyCameraComponent->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+
+	MaxSpeed = 100.0f;
+	Velocity = FVector::ZeroVector;
 }
 
 // Called when the game starts or when spawned
@@ -35,6 +45,8 @@ void AMyPawn::BeginPlay()
 void AMyPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	AddActorLocalOffset(Velocity * DeltaTime, true);
 }
 
 // Called to bind functionality to input
@@ -48,8 +60,10 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMyPawn::MoveForward(float value)
 {
+	Velocity.X = FMath::Clamp(value, -1.f, 1.f) * MaxSpeed;
 }
 
 void AMyPawn::MoveRight(float value)
 {
+	Velocity.Y = FMath::Clamp(value, -1.f, 1.f) * MaxSpeed;
 }

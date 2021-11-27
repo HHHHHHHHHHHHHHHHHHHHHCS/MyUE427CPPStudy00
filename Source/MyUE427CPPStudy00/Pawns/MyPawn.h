@@ -16,11 +16,17 @@ public:
 	AMyPawn();
 
 	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
-	UStaticMeshComponent* StaticMesh;
+	UStaticMeshComponent* MyStaticMesh;
 
 	//class 后 可以在cpp  include 就好了
 	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
 	class UCameraComponent* MyCameraComponent;
+
+	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
+	class USpringArmComponent* MySpringArm;
+
+	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
+	float MaxSpeed;
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,4 +42,6 @@ public:
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);
+
+	FVector Velocity;
 };
