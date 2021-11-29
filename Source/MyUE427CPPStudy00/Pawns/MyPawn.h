@@ -27,6 +27,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category="My Pawn Components")
 	float MaxSpeed;
+	
+	FORCEINLINE UStaticMeshComponent* GetMyStaticMesh() const;
+	FORCEINLINE USpringArmComponent* GetMySpringArm() const;
+
 
 protected:
 	// Called when the game starts or when spawned

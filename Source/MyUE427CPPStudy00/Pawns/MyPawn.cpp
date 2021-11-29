@@ -17,15 +17,28 @@ AMyPawn::AMyPawn()
 	MyStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
 	MyStaticMesh->SetupAttachment(GetRootComponent());
 
+	static ConstructorHelpers::FObjectFinder<UStaticMesh>
+		StaticMeshAsset(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
+
+	static ConstructorHelpers::FObjectFinder<UMaterialInterface>
+		StaticMaterialAsset(
+			TEXT("Material'/Game/StarterContent/Materials/M_Metal_Burnished_Steel.M_Metal_Burnished_Steel'"));
+
+	if (StaticMeshAsset.Succeeded() && StaticMeshAsset.Succeeded())
+	{
+		MyStaticMesh->SetStaticMesh(StaticMeshAsset.Object);
+		MyStaticMesh->SetMaterial(0, StaticMaterialAsset.Object);
+	}
+
 	MySpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	MySpringArm->SetupAttachment(MyStaticMesh);
+	MySpringArm->SetupAttachment(GetMyStaticMesh());
 	MySpringArm->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 	MySpringArm->TargetArmLength = 400.0f;
 	MySpringArm->bEnableCameraLag = true;
 	MySpringArm->CameraLagSpeed = 3.0f;
 
 	MyCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-	MyCameraComponent->SetupAttachment(MySpringArm);//GetRootComponent());
+	MyCameraComponent->SetupAttachment(GetMySpringArm()); //GetRootComponent());
 	// MyCameraComponent->SetRelativeLocation(FVector(-300.0f, 0.0f, 300.0f));
 	// MyCameraComponent->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
@@ -57,6 +70,17 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AMyPawn::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPawn::MoveRight);
 }
+
+FORCEINLINE UStaticMeshComponent* AMyPawn::GetMyStaticMesh() const
+{
+	return MyStaticMesh;
+}
+
+USpringArmComponent* AMyPawn::GetMySpringArm() const
+{
+	return MySpringArm;
+}
+
 
 void AMyPawn::MoveForward(float value)
 {
