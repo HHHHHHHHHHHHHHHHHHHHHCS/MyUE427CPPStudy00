@@ -13,9 +13,12 @@ AMyPawn::AMyPawn()
 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
+	// RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
 	MyStaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StaticMesh"));
-	MyStaticMesh->SetupAttachment(GetRootComponent());
+	// MyStaticMesh->SetupAttachment(GetRootComponent());
+	RootComponent = MyStaticMesh;
+
+	MyStaticMesh->SetCollisionProfileName(TEXT("Pawn"));
 
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>
 		StaticMeshAsset(TEXT("StaticMesh'/Engine/BasicShapes/Sphere.Sphere'"));
