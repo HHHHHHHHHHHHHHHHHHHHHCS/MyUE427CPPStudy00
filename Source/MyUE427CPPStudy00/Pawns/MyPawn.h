@@ -46,6 +46,10 @@ public:
 private:
 	void MoveForward(float value);
 	void MoveRight(float value);
-
 	FVector Velocity;
+	
+	
+	void LookUp(float value);
+	void LookRight(float value);
+	FVector2D MouseInput;
 };

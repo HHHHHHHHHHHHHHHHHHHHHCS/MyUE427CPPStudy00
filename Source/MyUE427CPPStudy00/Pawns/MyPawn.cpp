@@ -63,6 +63,14 @@ void AMyPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AddActorLocalOffset(Velocity * DeltaTime, true);
+
+	//X, Y, Z
+	//Row, Pitch, Yaw
+	FRotator NewSpringArmRotation = MySpringArm->GetComponentRotation();
+	NewSpringArmRotation.Pitch += MouseInput.Y;
+	NewSpringArmRotation.Pitch = FMath::Clamp(NewSpringArmRotation.Pitch, -80.0f, 40.0f);
+
+	MySpringArm->SetWorldRotation(NewSpringArmRotation);
 }
 
 // Called to bind functionality to input
@@ -72,6 +80,8 @@ void AMyPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	PlayerInputComponent->BindAxis(TEXT("MoveForward"), this, &AMyPawn::MoveForward);
 	PlayerInputComponent->BindAxis(TEXT("MoveRight"), this, &AMyPawn::MoveRight);
+	PlayerInputComponent->BindAxis(TEXT("LookUp"), this, &AMyPawn::LookUp);
+	PlayerInputComponent->BindAxis(TEXT("LookRight"), this, &AMyPawn::LookRight);
 }
 
 FORCEINLINE UStaticMeshComponent* AMyPawn::GetMyStaticMesh() const
@@ -93,4 +103,14 @@ void AMyPawn::MoveForward(float value)
 void AMyPawn::MoveRight(float value)
 {
 	Velocity.Y = FMath::Clamp(value, -1.f, 1.f) * MaxSpeed;
+}
+
+void AMyPawn::LookUp(float value)
+{
+	MouseInput.Y = FMath::Clamp(value, -1.f, 1.f);
+}
+
+void AMyPawn::LookRight(float value)
+{
+	MouseInput.X = FMath::Clamp(value, -1.f, 1.f);
 }
