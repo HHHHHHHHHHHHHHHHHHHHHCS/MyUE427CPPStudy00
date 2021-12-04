@@ -46,6 +46,7 @@ AMyPawn::AMyPawn()
 	// MyCameraComponent->SetRelativeRotation(FRotator(-45.0f, 0.0f, 0.0f));
 
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
+	bUseControllerRotationYaw = true;
 
 	MaxSpeed = 100.0f;
 	Velocity = FVector::ZeroVector;
@@ -63,6 +64,8 @@ void AMyPawn::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	AddActorLocalOffset(Velocity * DeltaTime, true);
+
+	AddControllerYawInput(MouseInput.X);
 
 	//X, Y, Z
 	//Row, Pitch, Yaw
